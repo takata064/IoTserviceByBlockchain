@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>IotDataService</title>
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
+    <script language="javascript" type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="temp.abi"></script>
+</head>
+
+<body>
+    <script>
+        let contract = null;
+        let account = null;
+
+        window.addEventListener('load', async function () {
+            if (window.ethereum) {
+                let instance = new Web3(window.ethereum);
+                try {
+
+                    // アカウントへのアクセスを要求する
+                    await window.ethereum.enable();
+
+                    // MetaMaskのプロバイダの使用
+                    currentWeb3 = instance;
+
+                    // アカウントの取得
+                    const accounts = await currentWeb3.eth.getAccounts();
+                    account = accounts[0];
+
+                    const contractAddr = "0xb0aDc62493E14Ef89C2991694b89144bBf84c1d4";
+                    contract = new currentWeb3.eth.Contract(abi, contractAddr, { from: account });
+
+                } catch (error) {
+                    // アクセスを拒否された時のアラートを表示
+                    alert(error);
+                }
+            }
+        });
+
+        async function setUserInfo(areaName) {
+            $("#status").text("setting AreaName...");
+
+            await contract.methods.setUser(areaName)
+                .send({ from: account })
+                .on("receipt", function (receipt) {
+                    $("#status").text("Successfully set " + areaName + "!");
+                })
+                .on("error", function (error) {
+                    $("#txStatus").text("失敗しました");
+                });
+        }
+
+    </script>
+
+    <h2>ユーザ情報登録</h2>
+    <form name="setUserInfo_form" id="setUserInfo" action="">
+        地域名: <input name="input_setUserInfo" type="text" />
+        <input type="button" value="実行"
+            onclick="setUserInfo(document.forms.setUserInfo_form.input_setUserInfo.value)"><br />
+    </form>
+    ステータス : <div id="status">何もなし</div>
+</body>
+
+</html>

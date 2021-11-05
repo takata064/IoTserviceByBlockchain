@@ -1,0 +1,219 @@
+var abi = [
+		{
+			"constant": true,
+			"inputs": [
+				{
+					"name": "_areaName",
+					"type": "string"
+				}
+			],
+			"name": "getTemperaturesByArea",
+			"outputs": [
+				{
+					"name": "resName",
+					"type": "string"
+				},
+				{
+					"name": "resTime",
+					"type": "string"
+				},
+				{
+					"name": "resTemperature",
+					"type": "int16[]"
+				}
+			],
+			"payable": false,
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"constant": false,
+			"inputs": [
+				{
+					"name": "_areaName",
+					"type": "string"
+				}
+			],
+			"name": "areaRegister",
+			"outputs": [],
+			"payable": false,
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"constant": true,
+			"inputs": [
+				{
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"name": "TemperaturesDataList",
+			"outputs": [
+				{
+					"name": "areaName",
+					"type": "string"
+				},
+				{
+					"name": "time",
+					"type": "string"
+				},
+				{
+					"name": "temperature",
+					"type": "int16"
+				}
+			],
+			"payable": false,
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"constant": true,
+			"inputs": [
+				{
+					"name": "_userAddr",
+					"type": "address"
+				}
+			],
+			"name": "checkSetAreaName",
+			"outputs": [
+				{
+					"name": "res",
+					"type": "bool"
+				}
+			],
+			"payable": false,
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"constant": true,
+			"inputs": [
+				{
+					"name": "_userAddr",
+					"type": "address"
+				}
+			],
+			"name": "getAreaName",
+			"outputs": [
+				{
+					"name": "",
+					"type": "string"
+				}
+			],
+			"payable": false,
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"constant": true,
+			"inputs": [
+				{
+					"name": "_id",
+					"type": "uint256"
+				}
+			],
+			"name": "getTemperaturesById",
+			"outputs": [
+				{
+					"name": "resName",
+					"type": "string"
+				},
+				{
+					"name": "resTime",
+					"type": "string"
+				},
+				{
+					"name": "resTemperature",
+					"type": "int16"
+				}
+			],
+			"payable": false,
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"constant": false,
+			"inputs": [
+				{
+					"name": "_temperature",
+					"type": "int16"
+				},
+				{
+					"name": "_time",
+					"type": "string"
+				}
+			],
+			"name": "temperaturesRegister",
+			"outputs": [],
+			"payable": false,
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"constant": true,
+			"inputs": [
+				{
+					"name": "_userId",
+					"type": "address"
+				}
+			],
+			"name": "getTemperaturesByEOA",
+			"outputs": [
+				{
+					"name": "resName",
+					"type": "string"
+				},
+				{
+					"name": "resTime",
+					"type": "string"
+				},
+				{
+					"name": "resTemperature",
+					"type": "int16[]"
+				}
+			],
+			"payable": false,
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"anonymous": false,
+			"inputs": [
+				{
+					"indexed": false,
+					"name": "areaName",
+					"type": "string"
+				},
+				{
+					"indexed": false,
+					"name": "time",
+					"type": "string"
+				},
+				{
+					"indexed": false,
+					"name": "temperature",
+					"type": "int16"
+				},
+				{
+					"indexed": false,
+					"name": "id",
+					"type": "uint256"
+				}
+			],
+			"name": "addTempData",
+			"type": "event"
+		},
+		{
+			"anonymous": false,
+			"inputs": [
+				{
+					"indexed": false,
+					"name": "areaName",
+					"type": "string"
+				}
+			],
+			"name": "setAreaNameEvent",
+			"type": "event"
+		}
+	]

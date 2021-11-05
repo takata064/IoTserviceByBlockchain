@@ -1,0 +1,353 @@
+var abi = [
+		{
+			"anonymous": false,
+			"inputs": [
+				{
+					"indexed": true,
+					"internalType": "address",
+					"name": "previousOwner",
+					"type": "address"
+				},
+				{
+					"indexed": true,
+					"internalType": "address",
+					"name": "newOwner",
+					"type": "address"
+				}
+			],
+			"name": "OwnershipTransferred",
+			"type": "event"
+		},
+		{
+			"anonymous": false,
+			"inputs": [
+				{
+					"indexed": true,
+					"internalType": "address",
+					"name": "from",
+					"type": "address"
+				},
+				{
+					"indexed": false,
+					"internalType": "string",
+					"name": "areaName",
+					"type": "string"
+				},
+				{
+					"indexed": false,
+					"internalType": "uint256",
+					"name": "timestamp",
+					"type": "uint256"
+				},
+				{
+					"indexed": false,
+					"internalType": "int8",
+					"name": "temperature",
+					"type": "int8"
+				},
+				{
+					"indexed": false,
+					"internalType": "uint256",
+					"name": "id",
+					"type": "uint256"
+				}
+			],
+			"name": "addTempData",
+			"type": "event"
+		},
+		{
+			"anonymous": false,
+			"inputs": [
+				{
+					"indexed": true,
+					"internalType": "string",
+					"name": "areaName",
+					"type": "string"
+				},
+				{
+					"indexed": true,
+					"internalType": "address",
+					"name": "from",
+					"type": "address"
+				}
+			],
+			"name": "setAreaNameEvent",
+			"type": "event"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"name": "TemperaturesDataList",
+			"outputs": [
+				{
+					"internalType": "string",
+					"name": "areaName",
+					"type": "string"
+				},
+				{
+					"internalType": "uint256",
+					"name": "timestamp",
+					"type": "uint256"
+				},
+				{
+					"internalType": "int8",
+					"name": "temperature",
+					"type": "int8"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "string",
+					"name": "_areaName",
+					"type": "string"
+				}
+			],
+			"name": "changeAreaName",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "_userAddr",
+					"type": "address"
+				}
+			],
+			"name": "checkSetAreaName",
+			"outputs": [
+				{
+					"internalType": "bool",
+					"name": "res",
+					"type": "bool"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "_userAddr",
+					"type": "address"
+				}
+			],
+			"name": "getAreaName",
+			"outputs": [
+				{
+					"internalType": "string",
+					"name": "",
+					"type": "string"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "_address",
+					"type": "address"
+				}
+			],
+			"name": "getSetDataIDsByEOA",
+			"outputs": [
+				{
+					"internalType": "uint256[]",
+					"name": "res",
+					"type": "uint256[]"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "string",
+					"name": "_areaName",
+					"type": "string"
+				}
+			],
+			"name": "getTemperaturesByArea",
+			"outputs": [
+				{
+					"components": [
+						{
+							"internalType": "string",
+							"name": "areaName",
+							"type": "string"
+						},
+						{
+							"internalType": "uint256",
+							"name": "timestamp",
+							"type": "uint256"
+						},
+						{
+							"internalType": "int8",
+							"name": "temperature",
+							"type": "int8"
+						}
+					],
+					"internalType": "struct Temperatures.TemperaturesData[]",
+					"name": "resData",
+					"type": "tuple[]"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "address",
+					"name": "_userId",
+					"type": "address"
+				}
+			],
+			"name": "getTemperaturesByEOA",
+			"outputs": [
+				{
+					"components": [
+						{
+							"internalType": "string",
+							"name": "areaName",
+							"type": "string"
+						},
+						{
+							"internalType": "uint256",
+							"name": "timestamp",
+							"type": "uint256"
+						},
+						{
+							"internalType": "int8",
+							"name": "temperature",
+							"type": "int8"
+						}
+					],
+					"internalType": "struct Temperatures.TemperaturesData[]",
+					"name": "resData",
+					"type": "tuple[]"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "uint256",
+					"name": "_id",
+					"type": "uint256"
+				}
+			],
+			"name": "getTemperaturesById",
+			"outputs": [
+				{
+					"components": [
+						{
+							"internalType": "string",
+							"name": "areaName",
+							"type": "string"
+						},
+						{
+							"internalType": "uint256",
+							"name": "timestamp",
+							"type": "uint256"
+						},
+						{
+							"internalType": "int8",
+							"name": "temperature",
+							"type": "int8"
+						}
+					],
+					"internalType": "struct Temperatures.TemperaturesData",
+					"name": "",
+					"type": "tuple"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "getTemperaturesDataCount",
+			"outputs": [
+				{
+					"internalType": "uint256",
+					"name": "",
+					"type": "uint256"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [],
+			"name": "getTemperaturesDataList",
+			"outputs": [
+				{
+					"components": [
+						{
+							"internalType": "string",
+							"name": "areaName",
+							"type": "string"
+						},
+						{
+							"internalType": "uint256",
+							"name": "timestamp",
+							"type": "uint256"
+						},
+						{
+							"internalType": "int8",
+							"name": "temperature",
+							"type": "int8"
+						}
+					],
+					"internalType": "struct Temperatures.TemperaturesData[]",
+					"name": "",
+					"type": "tuple[]"
+				}
+			],
+			"stateMutability": "view",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "string",
+					"name": "_areaName",
+					"type": "string"
+				}
+			],
+			"name": "setAreaName",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		},
+		{
+			"inputs": [
+				{
+					"internalType": "int8",
+					"name": "_temperature",
+					"type": "int8"
+				}
+			],
+			"name": "temperaturesRegister",
+			"outputs": [],
+			"stateMutability": "nonpayable",
+			"type": "function"
+		}
+	]

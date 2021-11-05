@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test</title>
+    <script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js/dist/web3.min.js"></script>
+    <script language="javascript" type="text/javascript"
+        src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="temp.abi"></script>
+</head>
+
+<body>
+    <script>
+        let contract = null;
+        let account = null;
+
+        window.addEventListener('load', async function () {
+            if (window.ethereum) {
+                let instance = new Web3(window.ethereum);
+                try {
+
+                    // アカウントへのアクセスを要求する
+                    await window.ethereum.enable();
+
+                    // MetaMaskのプロバイダの使用
+                    currentWeb3 = instance;
+
+                    // アカウントの取得
+                    const accounts = await currentWeb3.eth.getAccounts();
+                    account = accounts[0];
+
+                    // アカウントを画面表示
+                    document.getElementById('initialload').innerHTML = "自分のアドレス:" + account;
+                    console.log(account);
+
+                    startApp();
+
+                } catch (error) {
+                    // アクセスを拒否された時のアラートを表示
+                    alert(error);
+                }
+            }
+        });
+
+        function startApp() {
+            const contractAddr = "0x5D0A7ecdBbbf3d1e8f3676337c73424E170eEF60";
+            contract = new currentWeb3.eth.Contract(abi, contractAddr, { from: account });
+        }
+
+        async function setAreaName(areaName) {
+            $("#status").text("setting AreaName...");
+
+            await contract.methods.setAreaName(areaName)
+                .send({ from: account })
+                .on("receipt", function (receipt) {
+                    $("#status").text("Successfully set " + areaName + "!");
+                })
+                .on("error", function (error) {
+                    $("#txStatus").text(error);
+                });
+        }
+
+        async function changeAreaName(areaName) {
+            $("#status").text("setting AreaName...");
+
+            await contract.methods.changeAreaName(areaName)
+                .send({ from: account })
+                .on("receipt", function (receipt) {
+                    $("#status").text("Successfully set " + areaName + "!");
+                })
+                .on("error", function (error) {
+                    $("#txStatus").text(error);
+                });
+        }
+
+        async function getAreaName(userAddr) {
+            $("#status").text("Checking...");
+
+            await contract.methods.getAreaName(userAddr)
+                .call()
+                .then(function (result) {
+                    $("#status").text("areaName : " + result);
+                });
+        }
+
+        async function setTemperatures(temperature) {
+            $("#status").text("setting Temperature...");
+
+            await contract.methods.temperaturesRegister(temperature)
+                .send({ from: account })
+                .on("receipt", function (receipt) {
+                    $("#status").text("Successfully set " + temperature + "!");
+                })
+                .on("error", function (error) {
+                    $("#txStatus").text(error);
+                });
+        }
+
+        async function getTemperaturesById(id) {
+            $("#status").text("Checking...");
+
+            await contract.methods.getTemperaturesById(id)
+                .call()
+                .then(function (result) {
+                    $("#status").text(result);
+                    console.log(result);
+                });
+        }
+
+        async function getTemperaturesByArea(name) {
+            $("#status").text("Checking...");
+
+            await contract.methods.getTemperaturesByArea(name)
+                .call()
+                .then(function (result) {
+                    $("#status").text(result);
+                });
+        }
+
+        async function getTemperaturesByEOA(userAddr) {
+            $("#status").text("Checking...");
+
+            await contract.methods.getTemperaturesByEOA(userAddr)
+                .call()
+                .then(function (result) {
+                    $("#status").text(result);
+                });
+        }
+
+        async function getTemperaturesDataList() {
+            $("#status").text("Checking...");
+
+            await contract.methods.getTemperaturesDataList()
+                .call()
+                .then(function (result) {
+                    console.log(result);
+                    $("#status").html(formatData(result));
+                });
+        }
+
+        function formatData(data) {
+            let str = "";
+            let count = 1;
+            let time;
+            data.forEach(ele => {
+                str += String(count);
+                str += ':地名=';
+                str += ele[0];
+                str += ',時間=';
+                time = new Date(Number(ele[1]) * 1000);
+                str += time;
+                str += ',温度='
+                str += ele[2];
+                str += '度';
+                str += "<br>";
+                count++;
+            });
+            return str;
+        }
+
+    </script>
+    <h2>地域登録</h2>
+    <form name="setAreaName_form" id="setAreaName" action="">
+        地域名: <input name="input_set_areaName" type="text" />
+        <input type="button" value="実行"
+            onclick="setAreaName(document.forms.setAreaName_form.input_set_areaName.value)"><br />
+    </form>
+    <h2>地域変更</h2>
+    <form name="changeAreaName_form" id="changeAreaName" action="">
+        地域名: <input name="input_changeAreaName" type="text" />
+        <input type="button" value="実行"
+            onclick="setAreaName(document.forms.changeAreaName_form.input_changeAreaName.value)"><br />
+    </form>
+    <h2>温度登録</h2>
+    <form name="setTemp_form" id="setTemp" action="">
+        温度: <input name="input_temp" type="text" />
+        <input type="button" value="実行" onclick="setTemperatures(document.forms.setTemp_form.input_temp.value)"><br />
+    </form>
+    <p>--------------------------------------------------------------------</p>
+    <h2>登録地域参照</h2>
+    <form name="getAreaName_form" id="getAreaName" action="">
+        <input type="button" value="実行" onclick="getAreaName(account)"><br />
+    </form>
+    <h2>登録温度参照(ID)</h2>
+    <form name="getTemp_ID_form" id="getTemp_ID" action="">
+        登録ID: <input name="input_get_ID" type="text" />
+        <input type="button" value="実行"
+            onclick="getTemperaturesById(document.forms.getTemp_ID_form.input_get_ID.value)"><br />
+    </form>
+    <h2>登録温度参照(アドレス)</h2>
+    <form name="getTemp_addr_form" id="getTemp_addr" action="">
+        登録ID: <input name="input_get_addr" type="text" />
+        <input type="button" value="実行"
+            onclick="getTemperaturesByEOA(document.forms.getTemp_addr_form.input_get_addr.value)"><br />
+    </form>
+    <h2>登録温度参照(地域名)</h2>
+    <form name="getTemp_areaName_form" id="getTemp_areaName" action="">
+        登録ID: <input name="input_get_areaName" type="text" />
+        <input type="button" value="実行"
+            onclick="getTemperaturesByArea(document.forms.getTemp_areaName_form.input_get_areaName.value)"><br />
+    </form>
+    <h2>全データ取得</h2>
+    <input type="button" value="実行" onclick="getTemperaturesDataList()"><br />
+    <div id="initialload"></div>
+    <div id="temp_data"></div>
+    ステータス : <div id="status">何もなし</div>
+</body>
+
+</html>
